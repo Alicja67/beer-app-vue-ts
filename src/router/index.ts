@@ -1,24 +1,17 @@
-import { RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router'
+import Home from '@/views/HomeView.vue'
 
-import HomeView from '../views/HomeView.vue';
-import BeerComponent from '../components/BeerComponent.vue';
-
-const router: RouteRecordRaw[] = [
-  {
-    path: '/',
-    name: 'Home',
-    component: HomeView
-  },
-  {
-    path: '/beers/:id',
-    name: 'Beers',
-    component: BeerComponent,
-  }
-];
-
-const router = createRouter({
+export default createRouter({
   history: createWebHistory(),
-  routes,
-});
-
-export default router;
+  routes: [
+    {
+      path: '/',
+      name: 'Home',
+      component: Home,
+    },
+    // {
+    //   path: '/about',
+    //   component: () => import('@/views/About.vue'),
+    // },
+  ],
+})
