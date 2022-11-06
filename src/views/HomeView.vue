@@ -1,9 +1,49 @@
 <template>
   <div class="app">
-    <nav class="nav">
-      <p>Hello Alicja</p>
-      <input type="text" />
-    </nav>
+    <div class="header">
+      <p>Beer index</p>
+      <nav class="nav">
+        <div class="search-box">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-search"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <circle cx="10" cy="10" r="7"></circle>
+            <line x1="21" y1="21" x2="15" y2="15"></line>
+          </svg>
+          <input type="text" placeholder="find beer name" />
+        </div>
+        <div class="button-box">
+          <button>IBU</button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-caret-up"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M18 14l-6 -6l-6 6h12"></path>
+          </svg>
+        </div>
+        <button class="form-button" style="background: green">Search</button>
+        <button class="form-button" style="background: darkred">Reset</button>
+      </nav>
+    </div>
     <beers-list :beers="results"></beers-list>
   </div>
 </template>
@@ -50,13 +90,74 @@ export default defineComponent({
   height: 100vh;
   width: 1920px;
   overflow: hidden;
-}
-.nav {
-  position: fixed;
-  background: white;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 12%;
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 12%;
+    background: rgb(58, 56, 56);
+    position: fixed;
+    p {
+      font-size: 30px;
+      color: white;
+      z-index: 1;
+      margin-left: 20px;
+    }
+    .nav {
+      width: 45%;
+      display: flex;
+      flex-direction: row;
+      .search-box {
+        width: 300px;
+        height: 10px;
+        background: white;
+        border-radius: 20px;
+        align-items: center;
+        padding: 20px;
+        display: flex;
+        margin: 0 5px;
+        input {
+          flex: 1;
+          height: 30px;
+          border: none;
+          outline: none;
+          font-size: 1em;
+        }
+      }
+      .button-box {
+        width: 100px;
+        height: 10px;
+        background: white;
+        border-radius: 20px;
+        align-items: center;
+        padding: 20px;
+        display: flex;
+        margin: 0 5px;
+        button {
+          flex: 1;
+        }
+        button:focus {
+          outline: none;
+          border: none;
+        }
+        button:focus-visible {
+          outline: none;
+          border: none;
+        }
+        button:hover {
+          border: none;
+          outline: none;
+        }
+      }
+      .form-button {
+        border-radius: 30px;
+        margin: 0 5px;
+        color: white;
+        font-weight: bold;
+      }
+    }
+  }
 }
 </style>

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/HomeView.vue';
 import BeerView from '@/views/BeerView.vue';
+import PageNotFound from '@/views/PageNotFound.vue';
 
 export default createRouter({
   history: createWebHistory(),
@@ -14,6 +15,11 @@ export default createRouter({
       path: '/beer/:id',
       name: 'Beers',
       component: BeerView,
+    },
+    {
+      path: '/:catchAll(.*)',
+      name: 'PageNotFound',
+      component: PageNotFound,
     },
   ],
 });
