@@ -15,6 +15,14 @@ export default createRouter({
       path: '/beer/:id',
       name: 'Beers',
       component: BeerView,
+      // beforeEnter: (to, _, next) => {
+      //   const { id } = to.params;
+
+      //   if(Array.isArray(id)) {
+      //     next({path: '/error'})
+      //     return
+      //   }
+      // }
     },
     {
       path: '/:catchAll(.*)',

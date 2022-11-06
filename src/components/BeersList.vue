@@ -22,7 +22,12 @@ export default defineComponent({
       type: Array as PropType<BeerType[]>,
     },
   },
-  setup() {
+  setup(props) {
+    const filteredData = () => {
+      props.beers.forEach((item) => {
+        const match = new RegExp(props.searchName)
+      })
+    }
     const router = useRouter();
     const goToBeer = (id: number) => {
       router.push({ path: `/beer/${id}` });
@@ -46,22 +51,25 @@ export default defineComponent({
   grid-row-gap: 30px;
   overflow-y: scroll;
   font-family: 'Poppins', sans-serif;
+  background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500);
 
   .beer-card-container {
-    // max-width: 500px;
-    background: white;
-    border-radius: 20px;
+    border-radius: 30px;
+    // border: 3px solid black;
+    background: rgba(0, 0, 0, 0.5);
+    color: rgb(219, 235, 218);
     -webkit-box-shadow: 0px 0px 8px -1px rgba(66, 68, 90, 1);
     -moz-box-shadow: 0px 0px 8px -1px rgba(66, 68, 90, 1);
     box-shadow: 0px 0px 8px -1px rgba(66, 68, 90, 1);
     .name {
       font-family: 'Abril Fatface', cursive;
-      font-size: 1.5em;
+      font-size: 1.8em;
       padding: 20px;
       text-align: center;
     }
     .beer-details {
       display: flex;
+      font-size: 1.3em;
       flex-direction: row;
       align-items: center;
       justify-content: space-around;

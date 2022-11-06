@@ -21,7 +21,7 @@
         <ul class="foor-pairing-list">
           <li v-for="(el, index) in results.food_pairing" :key="index">{{ el }}</li>
         </ul>
-        <h4 class="author">Author {{ results.contributed_by }}</h4>
+        <h4 class="author">Author: {{ author }}</h4>
       </div>
     </div>
   </div>
@@ -45,10 +45,11 @@ export default defineComponent({
   setup(props: BeerCardProps) {
     const results = ref<BeerType>({});
     const router = useRouter();
+    const author = ref('');
     const goBack = () => {
-      router.push({path:'/'})
-    }
-    return { results, goBack };
+      router.push({ path: '/' });
+    };
+    return { results, goBack, author };
   },
   methods: {
     getApiData() {
@@ -56,13 +57,30 @@ export default defineComponent({
         .get(`https://api.punkapi.com/v2/beers/${this.beerId}`)
         .then((response) => {
           this.results = response.data[0];
-          console.log('results', this.results, this.results.id);
+          this.catchNickname(this.results.contributed_by);
         })
         .catch((error) => {
           console.log(error);
         });
     },
+    catchNickname(name: string) {
+      const regex = /(?<=\<)(.*?)(?=\>)/;
+      const myArray = [];
+      const match = regex.exec(name)[0];
+      console.log(match);
+      this.author = match;
+
+    },
   },
+  // computed: {
+  //     catchNickname(name: string) {
+  //       const regex = new RegExp(/\[(.*?)\]/);
+  //       const aaa = 'Autor <dasfsdaf>';
+  //       const matched = aaa.match(regex);
+  //       console.log(matched);
+  //       return matched
+  //     },
+  //   },
   mounted() {
     this.getApiData();
   },
@@ -110,7 +128,7 @@ export default defineComponent({
         font-family: 'Abril Fatface', cursive;
         font-size: 4em;
         animation-name: rotateRight;
-        animation-duration: 1.5s;
+        animation-duration: 1s;
         animation-iteration-count: 1;
         transform-origin: center;
         animation-fill-mode: forwards;
@@ -167,7 +185,7 @@ export default defineComponent({
       }
       .author {
         padding: 15px;
-        text-align:center;
+        text-align: center;
         border: 1px solid black;
         margin: 10px;
         border-radius: 30px;
@@ -176,9 +194,9 @@ export default defineComponent({
         transition: all 0.2s ease-in-out;
       }
       .author:hover {
-          // transform: scale(1.05);
-          animation: grow 0.3s;
-        }
+        // transform: scale(1.05);
+        animation: grow 0.3s;
+      }
     }
   }
 }

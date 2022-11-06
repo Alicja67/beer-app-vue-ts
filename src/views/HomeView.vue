@@ -20,10 +20,10 @@
             <circle cx="10" cy="10" r="7"></circle>
             <line x1="21" y1="21" x2="15" y2="15"></line>
           </svg>
-          <input type="text" placeholder="find beer name" />
+          <input type="text" v-model="searchName" placeholder="find beer name" />
         </div>
         <div class="button-box">
-          <button>IBU</button>
+          <p>IBU</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="icon icon-tabler icon-tabler-caret-up"
@@ -40,11 +40,11 @@
             <path d="M18 14l-6 -6l-6 6h12"></path>
           </svg>
         </div>
-        <button class="form-button" style="background: green">Search</button>
+        <button class="form-button" style="background: green" type="submit" @click="handleSearch">Search</button>
         <button class="form-button" style="background: darkred">Reset</button>
       </nav>
     </div>
-    <beers-list :beers="results"></beers-list>
+    <beers-list :beers="results" :searchName="searchName"></beers-list>
   </div>
 </template>
 <script lang="ts">
@@ -58,29 +58,36 @@ export default defineComponent({
   components: { BeersList },
   setup() {
     const results = ref<BeerType[]>([]);
-
-    return { results };
+    const searchName = ref('');
+    console.log('search', searchName.value);
+    return { results, searchName };
   },
   methods: {
-    getApiData() {
-      axios
-        .get('https://api.punkapi.com/v2/beers')
-        .then((response) => {
-          this.results = response.data;
-          console.log('results', this.results);
-        })
-        .catch((error) => {
+    async getApiData() {
+      try {
+        await axios
+          .get('https://api.punkapi.com/v2/beers')
+          .then((response) => {
+            if (response.data) {
+              this.results = response.data;
+              console.log('results', this.results);
+            } else {
+              alert('Network Error');
+            }
+          })
+          .catch((error) => {
+            console.log(error.message);
+            alert(error.message);
+          });
+      } catch (error) {
           console.log(error);
-        });
-    },
+          alert(error);
+      }
+    }
   },
   mounted() {
     this.getApiData();
   },
-  // setup() {
-  //   const count = ref(0)
-  //   return { count }
-  // }
 });
 </script>
 <style lang="scss" scoped>
@@ -111,9 +118,9 @@ export default defineComponent({
       flex-direction: row;
       .search-box {
         width: 300px;
-        height: 10px;
+        height: 50px;
         background: white;
-        border-radius: 20px;
+        border-radius: 30px;
         align-items: center;
         padding: 20px;
         display: flex;
@@ -126,34 +133,34 @@ export default defineComponent({
           font-size: 1em;
         }
       }
+      .search-box:focus,
+      .search-box:hover {
+        border: 1px solid #646cff;
+        // outline: 4px auto -webkit-focus-ring-color;
+      }
       .button-box {
         width: 100px;
-        height: 10px;
+        height: 50px;
         background: white;
-        border-radius: 20px;
-        align-items: center;
+        border-radius: 30px;
         padding: 20px;
         display: flex;
-        margin: 0 5px;
+        // margin: 0 5px;
         cursor: pointer;
-        button {
+        align-items: center;
+        justify-content: center;
+        p {
           flex: 1;
-          font-family: 'Poppins', sans-serif;
-          padding: 'Poppins', sans-serif;
-          background: transparent;
+          font-size: 1em;
+          color: black;
+          padding: 0;
+          margin: 0;
         }
-        button:focus {
-          outline: none;
-          border: none;
-        }
-        button:focus-visible {
-          outline: none;
-          border: none;
-        }
-        button:hover {
-          border: none;
-          outline: none;
-        }
+      }
+      .button-box:focus,
+      .button-box:hover {
+        border-color: #646cff;
+        // outline: 4px auto -webkit-focus-ring-color;
       }
       .form-button {
         border-radius: 30px;
