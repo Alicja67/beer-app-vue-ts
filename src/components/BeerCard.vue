@@ -1,6 +1,6 @@
 <template>
   <div class="beer-card">
-    <button class="back">Back</button>
+    <button class="back" @click="goBack">Back</button>
     <div class="card-container">
       <div class="img-container">
         <img :src="results.image_url" :alt="results.name" />
@@ -30,6 +30,7 @@
 import { computed, defineComponent, ref } from 'vue';
 import axios from 'axios';
 import BeerType from '../types/Beer';
+import { useRouter } from 'vue-router';
 
 type BeerCardProps = { beerId: number };
 
@@ -43,7 +44,11 @@ export default defineComponent({
   },
   setup(props: BeerCardProps) {
     const results = ref<BeerType>({});
-    return { results };
+    const router = useRouter();
+    const goBack = () => {
+      router.push({path:'/'})
+    }
+    return { results, goBack };
   },
   methods: {
     getApiData() {
@@ -88,9 +93,9 @@ export default defineComponent({
     position: relative;
     text-align: left;
     height: 100%;
-    padding: 4%;
+    // padding: 4%;
     display: grid;
-    grid-template-columns: 25% 75%;
+    grid-template-columns: 30% 70%;
     grid-template-rows: 60% 40%;
     .img-container {
       margin: auto;
@@ -110,6 +115,7 @@ export default defineComponent({
         transform-origin: center;
         animation-fill-mode: forwards;
         opacity: 0;
+        margin: 8% 0;
         animation-fill-mode: forwards;
       }
       .more-info {
@@ -136,15 +142,18 @@ export default defineComponent({
       .description {
         font-size: 3em;
         line-height: 120%;
+        padding-right: 7%;
       }
     }
     .beer-details-more {
       font-size: 1.4em;
+      margin: 0 auto;
+      padding: 0 14%;
       .pairing {
         margin: 0;
-        padding-left: 40px;
         font-size: 1.5em;
         margin: 15px;
+        text-align: center;
       }
       ul {
         padding-bottom: 10px;
@@ -158,6 +167,7 @@ export default defineComponent({
       }
       .author {
         padding: 15px;
+        text-align:center;
         border: 1px solid black;
         margin: 10px;
         border-radius: 30px;

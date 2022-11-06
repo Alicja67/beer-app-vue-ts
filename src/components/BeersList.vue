@@ -1,6 +1,6 @@
 <template>
   <div class="beers-list-container">
-    <div class="beer-card-container" v-for="(beer, beerIndex) in beers" :key="beer.id" @click="goToBeer">
+    <div class="beer-card-container" v-for="(beer, beerIndex) in beers" :key="beerIndex" @click="goToBeer(beer.id)">
       <h1 class="name">{{ beer.name }}</h1>
       <div class="beer-details">
         <p>IBU: {{ beer.ibu }}</p>
@@ -19,14 +19,15 @@ export default defineComponent({
   props: {
     beers: {
       required: true,
-      type: Array as PropType<BeerType[]>
-    }
+      type: Array as PropType<BeerType[]>,
+    },
   },
-  setup(props) {
+  setup() {
     const router = useRouter();
-    const goToBeer = (index: number) => {
-      router.push({path: `/beer/${props.id}`})
-    }
+    const goToBeer = (id: number) => {
+      router.push({ path: `/beer/${id}` });
+    };
+    return { goToBeer };
   },
 });
 </script>
@@ -45,6 +46,7 @@ export default defineComponent({
   grid-row-gap: 30px;
   overflow-y: scroll;
   font-family: 'Poppins', sans-serif;
+
   .beer-card-container {
     // max-width: 500px;
     background: white;
