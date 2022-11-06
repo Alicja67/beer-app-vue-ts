@@ -1,12 +1,40 @@
 <template>
-  <div></div>
+  <div class="beer-card">
+    <button class="back">Back</button>
+    <div class="card-container">
+      <div class="img-container">
+        <img :src="results.image_url" :alt="results.name" />
+      </div>
+      <div class="card-details">
+        <h3 class="beer name">{{ results.name }}</h3>
+        <div class="more-info">
+          <p>
+            <span>{{ results.tagline }}</span>
+          </p>
+          <p><span>IBU: </span>{{ results.ibu }}</p>
+          <p><span>ABV: </span>{{ results.abv }}</p>
+        </div>
+        <h3 class="beer description">{{ results.description }}</h3>
+      </div>
+      <div class="beer-details-more">
+        <h4 class="pairing">Food Pairing:</h4>
+        <ul class="foor-pairing-list">
+          <li v-for="(el, index) in results.food_pairing" :key="index">{{ el }}</li>
+        </ul>
+        <h4 class="author">Author {{ results.contributed_by }}</h4>
+      </div>
+    </div>
+  </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
+import axios from 'axios';
+import BeerType from '../types/Beer';
 
 type BeerCardProps = { beerId: number };
 
 export default defineComponent({
+  name: 'BeerCard',
   props: {
     beerId: {
       type: Number,
@@ -14,9 +42,159 @@ export default defineComponent({
     },
   },
   setup(props: BeerCardProps) {
-    const beer = computed(() => beers[props.beerId]);
-    return { beer };
+    const results = ref<BeerType>({});
+    return { results };
+  },
+  methods: {
+    getApiData() {
+      axios
+        .get(`https://api.punkapi.com/v2/beers/${this.beerId}`)
+        .then((response) => {
+          this.results = response.data[0];
+          console.log('results', this.results, this.results.id);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+  mounted() {
+    this.getApiData();
   },
 });
 </script>
-<style lang=""></style>
+<style lang="scss" scoped>
+.beer-card {
+  width: 100vw;
+  height: 100vh;
+  background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500);
+  .back {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+    background: rgb(48, 48, 45);
+    color: white;
+    border-radius: 30px;
+    padding: 15px;
+    font-size: 1.3em;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+    z-index: 1;
+  }
+  .back:hover {
+    animation: grow 0.5s;
+  }
+  .card-container {
+    position: relative;
+    text-align: left;
+    height: 100%;
+    padding: 4%;
+    display: grid;
+    grid-template-columns: 25% 75%;
+    grid-template-rows: 60% 40%;
+    .img-container {
+      margin: auto;
+      img {
+        width: 100%;
+        height: 100%;
+        max-height: 500px;
+      }
+    }
+    .card-details {
+      .name {
+        font-family: 'Abril Fatface', cursive;
+        font-size: 4em;
+        animation-name: rotateRight;
+        animation-duration: 1.5s;
+        animation-iteration-count: 1;
+        transform-origin: center;
+        animation-fill-mode: forwards;
+        opacity: 0;
+        animation-fill-mode: forwards;
+      }
+      .more-info {
+        display: flex;
+        flex-direction: row;
+        font-size: 1.4em;
+        p {
+          padding: 15px;
+          border: 1px solid black;
+          margin: 10px;
+          border-radius: 30px;
+          background: rgba(0, 0, 0, 0.5);
+          color: rgb(214, 208, 208);
+          transition: all 0.2s ease-in-out;
+          span {
+            font-weight: 700;
+          }
+        }
+        p:hover {
+          // transform: scale(1.05);
+          animation: grow 0.3s;
+        }
+      }
+      .description {
+        font-size: 3em;
+        line-height: 120%;
+      }
+    }
+    .beer-details-more {
+      font-size: 1.4em;
+      .pairing {
+        margin: 0;
+        padding-left: 40px;
+        font-size: 1.5em;
+        margin: 15px;
+      }
+      ul {
+        padding-bottom: 10px;
+        margin: 0;
+        li {
+          padding: 8px;
+        }
+        li::marker {
+          content: '\2023';
+        }
+      }
+      .author {
+        padding: 15px;
+        border: 1px solid black;
+        margin: 10px;
+        border-radius: 30px;
+        background: rgba(0, 0, 0, 0.7);
+        color: rgb(214, 208, 208);
+        transition: all 0.2s ease-in-out;
+      }
+      .author:hover {
+          // transform: scale(1.05);
+          animation: grow 0.3s;
+        }
+    }
+  }
+}
+@keyframes grow {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes rotateRight {
+  0% {
+    transform: rotate(60deg);
+    opacity: 0;
+  }
+  50% {
+    transform: rotate(60deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+}
+</style>

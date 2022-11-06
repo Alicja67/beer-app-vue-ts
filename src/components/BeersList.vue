@@ -1,6 +1,6 @@
 <template>
   <div class="beers-list-container">
-    <div class="beer-card-container" v-for="beer in beers" :key="beer.id">
+    <div class="beer-card-container" v-for="(beer, beerIndex) in beers" :key="beer.id" @click="goToBeer">
       <h1 class="name">{{ beer.name }}</h1>
       <div class="beer-details">
         <p>IBU: {{ beer.ibu }}</p>
@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import BeerType from '../types/Beer';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'BeersList',
@@ -22,7 +22,12 @@ export default defineComponent({
       type: Array as PropType<BeerType[]>
     }
   },
-  setup() {},
+  setup(props) {
+    const router = useRouter();
+    const goToBeer = (index: number) => {
+      router.push({path: `/beer/${props.id}`})
+    }
+  },
 });
 </script>
 <style lang="scss" scoped>
@@ -39,6 +44,7 @@ export default defineComponent({
   grid-column-gap: 30px;
   grid-row-gap: 30px;
   overflow-y: scroll;
+  font-family: 'Poppins', sans-serif;
   .beer-card-container {
     // max-width: 500px;
     background: white;

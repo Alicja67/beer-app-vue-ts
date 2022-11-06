@@ -135,8 +135,12 @@ export default defineComponent({
         padding: 20px;
         display: flex;
         margin: 0 5px;
+        cursor: pointer;
         button {
           flex: 1;
+          font-family: 'Poppins', sans-serif;
+          padding: 'Poppins', sans-serif;
+          background: transparent;
         }
         button:focus {
           outline: none;
