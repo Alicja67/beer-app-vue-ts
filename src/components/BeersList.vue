@@ -55,6 +55,7 @@ export default defineComponent({
 
   .beer-card-container {
     border-radius: 30px;
+    height: 200px;
     // border: 3px solid black;
     background: rgba(0, 0, 0, 0.5);
     color: rgb(219, 235, 218);
