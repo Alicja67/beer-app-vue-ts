@@ -90,6 +90,7 @@ import axios from 'axios';
 import BeerType from '../types/Beer';
 import BeersList from '../components/BeersList.vue';
 
+
 export default defineComponent({
   name: 'HomeView',
   components: { BeersList },

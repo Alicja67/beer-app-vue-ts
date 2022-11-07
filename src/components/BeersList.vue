@@ -7,15 +7,18 @@
         <p>Food Pairing: {{ beer.food_pairing.length }}</p>
       </div>
     </div>
+    <!-- <pagination-page></pagination-page> -->
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import BeerType from '../types/Beer';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
+import PaginationPage from './PaginationPage.vue';
 
 export default defineComponent({
   name: 'BeersList',
+  components: { PaginationPage },
   props: {
     beers: {
       required: true,
@@ -25,9 +28,9 @@ export default defineComponent({
   setup(props) {
     const filteredData = () => {
       props.beers.forEach((item) => {
-        const match = new RegExp(props.searchName)
-      })
-    }
+        const match = new RegExp(props.searchName);
+      });
+    };
     const router = useRouter();
     const goToBeer = (id: number) => {
       router.push({ path: `/beer/${id}` });
