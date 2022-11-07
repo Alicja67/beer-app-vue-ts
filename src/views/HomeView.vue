@@ -184,6 +184,7 @@ export default defineComponent({
   height: 100vh;
   width: 1920px;
   overflow: hidden;
+
   .header {
     display: flex;
     flex-direction: row;
@@ -193,6 +194,7 @@ export default defineComponent({
     height: 12%;
     background: rgb(58, 56, 56);
     position: fixed;
+
     p {
       font-size: 30px;
       color: white;
@@ -261,6 +263,31 @@ export default defineComponent({
         margin: 0 5px;
         color: white;
         font-weight: bold;
+      }
+    }
+  }
+}
+@media screen and (max-width: 850px) {
+  .app {
+    width: 100%;
+    .header {
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      height: 25%;
+      padding-top: 2%;
+      p {
+        display: none;
+      }
+      .nav {
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        .search-ibu-box, .button-box {
+          display: none;
+        }
       }
     }
   }

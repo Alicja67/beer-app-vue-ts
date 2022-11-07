@@ -80,4 +80,22 @@ export default defineComponent({
     }
   }
 }
+@media screen and (max-width: 850px) {
+  .beers-list-container {
+    width: 100%;
+    top: 20%;
+    grid-template-columns: repeat(1, 1fr);
+    grid-column-gap: 30px;
+    grid-row-gap: 30px;
+    padding: 0;
+    padding-top: 4%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    .beer-card-container {
+      width: 80%
+    }
+  }
+}
 </style>
