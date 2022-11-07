@@ -108,7 +108,7 @@ export default defineComponent({
         getApiData();
         searchName.value = '';
       }
-      if (searchIbu.value !== null && searchName.value === '') {
+      else if (searchIbu.value !== null && searchName.value === '') {
         console.log('Podano tylko ibu');
         if (ibu_gt) {
           url.value = `https://api.punkapi.com/v2/beers?ibu_gt=${searchIbu.value}`;
@@ -119,7 +119,7 @@ export default defineComponent({
         searchIbu.value = null;
         searchName.value = '';
       }
-      if (searchIbu.value !== null && searchName.value !== '') {
+      else if (searchIbu.value !== null && searchName.value !== '') {
         console.log('Podano name & ibu');
         if (ibu_gt) {
           url.value = `https://api.punkapi.com/v2/beers?beer_name=${searchName.value}&ibu_gt=${searchIbu.value}`;
